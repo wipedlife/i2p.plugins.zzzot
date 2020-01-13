@@ -65,21 +65,13 @@ public class ZzzOTController implements ClientApp {
     private final ZzzOT _zzzot;
     /** only for main() */
     private static volatile ZzzOTController _controller;
-    // you wouldn't run two instances in the same JVM, would you?
-    private static String _sitename;
-    private static String _showfooter;
-    private static String _footertext;
 
     private ClientAppState _state = UNINITIALIZED;
 
     private static final String NAME = "ZzzOT";
     private static final String DEFAULT_SITENAME = "ZZZOT";
     private static final String PROP_SITENAME = "sitename";
-    private static final String VERSION = "0.17.0";
-    private static final String DEFAULT_SHOWFOOTER = "true";
-    private static final String PROP_SHOWFOOTER = "showfooter";
-    private static final String DEFAULT_FOOTERTEXT = "Running <a href=\"https://github.com/i2p/i2p.plugins.zzzot\" target=\"_blank\">ZZZOT</a> " + VERSION;
-    private static final String PROP_FOOTERTEXT = "footertext";
+    private static final String version = "0.16.0";
     private static final String CONFIG_FILE = "zzzot.config";
     private static final String BACKUP_SUFFIX = ".jetty8";
     private static final String[] xmlFiles = {
@@ -107,9 +99,6 @@ public class ZzzOTController implements ClientApp {
                 _log.warn("No config file " + cfile);
         }
         _zzzot = new ZzzOT(ctx, props);
-        _sitename = props.getProperty(PROP_SITENAME, DEFAULT_SITENAME);
-        _showfooter = props.getProperty(PROP_SHOWFOOTER, DEFAULT_SHOWFOOTER);
-        _footertext = props.getProperty(PROP_FOOTERTEXT, DEFAULT_FOOTERTEXT);
         _state = INITIALIZED;
     }
 
@@ -169,15 +158,14 @@ public class ZzzOTController implements ClientApp {
             try {
                 dest = pkf.createIfAbsent();
             } catch (Exception e) {
-                _log.error("Unable to create " + key.getAbsolutePath() + ' ' + e);
+                _log.error("[ZzzOT] Unable to create " + key.getAbsolutePath() + ' ' + e);
                 throw new IllegalArgumentException("Unable to create " + key.getAbsolutePath() + ' ' + e);
             }
-            _log.logAlways(Log.INFO, "NOTICE: ZzzOT: New eepsite keys created in " + key.getAbsolutePath());
-            _log.logAlways(Log.INFO, "NOTICE: ZzzOT: You should back up this file!");
+            _log.logAlways(Log.INFO, "[ZzzOT] NOTICE: New eepsite keys created: " + key.getAbsolutePath() + " - You should back up this file!");
             String b32 = Base32.encode(dest.calculateHash().getData()) + ".b32.i2p";
             String b64 = dest.toBase64();
-            _log.logAlways(Log.INFO, "NOTICE: ZzzOT: Your base 32 address is " + b32);
-            _log.logAlways(Log.INFO, "NOTICE: ZzzOT: Your base 64 address is " + b64);
+            _log.logAlways(Log.INFO, "[ZzzOT] NOTICE: Your base 32 address is: " + b32);
+            _log.logAlways(Log.INFO, "[ZzzOT] NOTICE: Your base 64 address is: " + b64);
         }
         startJetty(pluginDir, dest);
         startI2PTunnel(pluginDir, dest);
@@ -192,19 +180,18 @@ public class ZzzOTController implements ClientApp {
         try {
             DataHelper.loadProps(i2ptunnelProps, i2ptunnelConfig);
         } catch (IOException ioe) {
-            _log.error("Cannot open " + i2ptunnelConfig.getAbsolutePath() + ' ' + ioe);
+            _log.error("[ZzzOT] Cannot open " + i2ptunnelConfig.getAbsolutePath() + ' ' + ioe);
             throw new IllegalArgumentException("Cannot open " + i2ptunnelConfig.getAbsolutePath() + ' ' + ioe);
         }
         TunnelController tun = new TunnelController(i2ptunnelProps, "tunnel.0.");
+        // start in foreground so we can get the destination
+        //tun.startTunnelBackground();
+        tun.startTunnel();
         if (dest != null) {
-            // start in foreground so we can get the destination
-            tun.startTunnel();
             List msgs = tun.clearMessages();
             for (Object s : msgs) {
-                 _log.logAlways(Log.INFO, "NOTICE: ZzzOT Tunnel message: " + s);
+                 _log.info("[ZzzOT] Tunnel message: " + s);
             }
-        } else {
-            tun.startTunnelBackground();
         }
         _tunnel = tun;
     }
@@ -226,7 +213,7 @@ public class ZzzOTController implements ClientApp {
             serv.start();
             _server = serv;
         } catch (Throwable t) {
-            _log.error("ZzzOT jetty start failed", t);
+            _log.error("[ZzzOT] Failed to start Jetty", t);
             throw new IllegalArgumentException("Jetty start failed " + t);
         }
         if (dest != null)
@@ -254,7 +241,7 @@ public class ZzzOTController implements ClientApp {
                 _tunnel.stopTunnel();
             }
         } catch (Throwable t) {
-            _log.error("ZzzOT tunnel stop failed", t);
+            _log.error("[ZzzOT] Tunnel stop failed", t);
             throw new IllegalArgumentException("Tunnel stop failed " + t);
         }
         _tunnel = null;
@@ -266,7 +253,7 @@ public class ZzzOTController implements ClientApp {
         try {
             _server.stop();
         } catch (Throwable t) {
-            _log.error("ZzzOT jetty stop failed", t);
+            _log.error("[ZzzOT] Jetty stop failed", t);
             throw new IllegalArgumentException("Jetty stop failed " + t);
         }
         _server = null;
@@ -326,9 +313,9 @@ public class ZzzOTController implements ClientApp {
             to = new File(to.getAbsolutePath() + "." + System.currentTimeMillis());
         boolean rv = FileUtil.copy(from, to, false, true);
         if (rv)
-            System.err.println("Backed up file " + from + " to " + to);
+            System.err.println("[ZzzOT] Backed up file " + from + " to " + to);
         else
-            System.err.println("WARNING: Failed to back up file " + from + " to " + to);
+            System.err.println("[ZzzOT] WARNING: Failed to back up file " + from + " to " + to);
         return rv;
     }
 
@@ -349,7 +336,7 @@ public class ZzzOTController implements ClientApp {
             os.write(props.getBytes("UTF-8"));
             return true;
         } catch (IOException ioe) {
-            _log.error(outFile + " migrate failed", ioe);
+            _log.error("[ZzzOT]" + outFile + " migrate failed", ioe);
             return false;
         } finally {
             if (os != null) try { os.close(); } catch (IOException ioe) {}
@@ -365,24 +352,24 @@ public class ZzzOTController implements ClientApp {
         String b32 = Base32.encode(dest.calculateHash().getData()) + ".b32.i2p";
         String b64 = dest.toBase64();
         try {
-            // help.html
-            String html = FileUtil.readTextFile(fileTmpl.getAbsolutePath(), 500, true);
+           // help.html
+           String html = FileUtil.readTextFile(fileTmpl.getAbsolutePath(), 315, true);
             if (html == null)
                 throw new IOException(fileTmpl.getAbsolutePath() + " open failed");
             // replace $HOME in path
             String home = System.getProperty("user.home");
             String pdir = pluginDir.getAbsolutePath();
+            String version = getVersion();
             if (pdir.startsWith(home)) {
                 pdir = "$HOME" + pdir.substring(home.length());
                 // only warn about username in help if we haven't replaced it with $HOME
-                html = html.replace("<p class=\"warn\" id=\"docroot\">", "<p id=\"docroot\">");
-                html = html.replace("<br><span class=\"emphasis\"><b>You should probably move it outside of the document root " +
-                                    "before you announce your eepsite as it may contain your username.</b></span>", "");
+                html = html.replace("<p id=\"docroot\" class=\"warn\"><b>", "<p class=\"docroot\">");
+                html = html.replace("<br><span class=\"emphasis\"><b>You should probably move it outside of the document root before you announce your eepsite as it may contain your username.</b></span>", "");
             }
             html = html.replace("$PLUGIN", pdir);
             html = html.replace("$B32", b32);
             html = html.replace("$B64", b64);
-            html = html.replace("$VERSION", VERSION);
+            html = html.replace("$VERSION", version);
             String bdir = _context.getBaseDir().getAbsolutePath();
             if (bdir.startsWith(home))
                 bdir = "$HOME" + bdir.substring(home.length());
@@ -391,17 +378,18 @@ public class ZzzOTController implements ClientApp {
             os.write(html.getBytes("UTF-8"));
             os.close();
             // index.html
-            String html2 = FileUtil.readTextFile(index_in.getAbsolutePath(), 50, true);
+            String html2 = FileUtil.readTextFile(index_in.getAbsolutePath(), 19, true);
             if (html2 == null)
                 throw new IOException(fileTmpl.getAbsolutePath() + " open failed");
             html2 = html2.replace("$B32", b32);
+            html2 = html2.replace("$B64", b64);
             FileOutputStream os2 = new FileOutputStream(index_out);
             os2.write(html2.getBytes("UTF-8"));
             os2.close();
             Thread t = new I2PAppThread(new Launcher(), "ZzzOTHelp", true);
             t.start();
         } catch (IOException ioe) {
-            _log.error("ZzzOT help launch failed", ioe);
+            _log.error("[ZzzOT] Help page launch failed", ioe);
         }
     }
 
@@ -424,17 +412,17 @@ public class ZzzOTController implements ClientApp {
             if (z != null) {
                 if (VersionComparator.comp(CoreVersion.VERSION, "0.9.17") < 0) {
                     ZzzOTController ctrlr = (ZzzOTController) z;
-                    _log.warn("Got start when another zzzot running, stopping him instead");
+                    _log.warn("[ZzzOT] Asked to start when another instance already running - stopping instead...");
                     ctrlr.shutdown(null);
                 } else {
-                    _log.error("ZzzOT already running");
+                    _log.error("[ZzzOT] Another instance is already running");
                 }
                 changeState(START_FAILED);
                 return;
             }
         }
         if (_state != STOPPED && _state != INITIALIZED && _state != START_FAILED) {
-            _log.error("Start while state = " + _state);
+            _log.error("[ZzzOT] Start while state = " + _state);
             return;
         }
         changeState(STARTING);
@@ -474,27 +462,17 @@ public class ZzzOTController implements ClientApp {
         return NAME;
     }
 
-    /////// end ClientApp methods
-
-    /** @since 0.17.0 */
+    /** @since 0.16.0 */
     public static String getSiteName() {
-        return _sitename;
+        return DEFAULT_SITENAME;
     }
 
-    /** @since 0.17.0 */
+    /** @since 0.16.0 */
     public static String getVersion() {
-        return VERSION;
+        return version;
     }
 
-    /** @since 0.17.0 */
-    public static String shouldShowFooter() {
-        return _showfooter;
-    }
-
-    /** @since 0.17.0 */
-    public static String footerText() {
-        return _footertext;
-    }
+    /////// end ClientApp methods
 
     /** @since 0.12.0 */
     private synchronized void changeState(ClientAppState state) {

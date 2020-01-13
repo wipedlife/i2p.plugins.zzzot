@@ -59,7 +59,7 @@
         String xfs = request.getHeader("X-Forwarded-Server");
 
 	boolean fail = false;
-	String msg = "bad announce";
+	String msg = "Bad announce";
 
 	if (xff != null || xfs != null) {
 		fail = true;
@@ -70,33 +70,33 @@
 
 	if (info_hash == null && !fail) {
 		fail = true;
-		msg = "no info hash";
+		msg = "No info hash";
 	}
 
 	if (!fail && info_hash.length() != 20) {
 		fail = true;
-		msg = "bad info hash length " + info_hash.length();
+		msg = "Bad info hash length " + info_hash.length();
 	}
 
 	if (ip == null && !fail) {
 		fail = true;
-		msg = "no ip (dest)";
+		msg = "No ip (dest)";
 	}
 
 	if (peer_id == null && !fail) {
 		fail = true;
-		msg = "no peer id";
+		msg = "No peer id";
 	}
 
 	if (!fail && peer_id.length() != 20) {
 		fail = true;
-		msg = "bad peer id length " + peer_id.length();
+		msg = "Bad peer id length " + peer_id.length();
 	}
 
  	Torrents torrents = ZzzOTController.getTorrents();
 	if (torrents == null && !fail) {
 		fail = true;
-		msg = "tracker is down";
+		msg = "Tracker is down";
 	}
 
 	InfoHash ih = null;
@@ -105,7 +105,7 @@
 			ih = torrents.createInfoHash(info_hash);
 		} catch (IllegalArgumentException e) {
 			fail = true;
-			msg = "bad infohash " + e;
+			msg = "Bad infohash " + e;
 		}
 	}
 
@@ -120,7 +120,7 @@
 			d = Destination.create(new ByteArrayInputStream(b));  // cache
 		} catch (Exception e) {
 			fail = true;
-			msg = "bad dest " + e;
+			msg = "Bad dest " + e;
 		}
 	}
 
@@ -130,7 +130,7 @@
 			pid = torrents.createPID(peer_id);
 		} catch (IllegalArgumentException e) {
 			fail = true;
-			msg = "bad peer id " + e;
+			msg = "Bad peer id " + e;
 		}
 	}
 
@@ -166,7 +166,7 @@
 	boolean matchIP = ALLOW_IP_MISMATCH || him == null || ip == null || ip.equals(him);
 	if (want <= 0 && (!matchIP) && !fail) {
 		fail = true;
-		msg = "ip mismatch";
+		msg = "IP mismatch";
 	}
 
 	long left = 0;
@@ -180,7 +180,7 @@
 
 	Map<String, Object> m = new HashMap<String, Object>(8);
 	if (fail) {
-		m.put("failure reason", msg);		
+		m.put("failure reason", msg);
 	} else if ("stopped".equals(event)) {
 		Peers peers = torrents.get(ih);
 		if (matchIP && peers != null)

@@ -1,0 +1,315 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+   <meta charset="UTF-8">
+   <title>ZZZOT OPENTRACKER | HELP</title>
+   <style type="text/css">
+      html,
+      body {
+         min-width: 600px;
+         min-height: 100%;
+         line-height: 1.4;
+         font-size: 14pt;
+         font-family: "Droid Sans", "Open Sans", "Noto Sans", Ubuntu, "Segoe UI", "Lucida Grande", Verdana, Helvetica, sans-serif;
+         color: #bbb;
+         background: #111;
+         scrollbar-color: #222 #111;
+      }
+
+      @supports (background-blend-mode: overlay) {
+         html, body {
+         background: repeating-linear-gradient(45deg, #333, #111 2px, #111 3px), repeating-linear-gradient(135deg, #444, #333 2px, #222 3px);
+         background-blend-mode: overlay, normal;
+         background-size: 100% 100%, 100% 100%;
+         background-attachment: fixed;
+         }
+      }
+
+      ::selection,
+      ::-moz-selection {
+         text-shadow: none;
+         background: #431;
+         color: #fff;
+      }
+
+      code::-moz-selection,
+      #b64::-moz-selection,
+      code::selection,
+      #b64::selection {
+         background: #150;
+         color: #fff;
+      }
+
+      p,
+      li,
+      code {
+         text-shadow: 0 1px 1px #000;
+      }
+
+      #container {
+         padding: 5% 15% !important;
+      }
+
+      #zzzothelp #panel {
+         padding: 20px 40px !important;
+         font-size: 85%;
+         text-align: justify !important;
+         border: 1px solid #555;
+         box-shadow: inset 0 0 0 1px #111, inset 0 0 2px 1px #444, 0 0 2px 2px #000;
+         background: #181818;
+         background: repeating-linear-gradient(to right, rgba(255, 255, 255, .05), rgba(0, 0, 0, .08) 2px), repeating-linear-gradient(to bottom, #222, #111 2px);
+         background-blend-mode: overlay;
+         will-change: transform;
+      }
+
+      #zzzothelp #zzzot,
+      #zzzothelp #zzzot:hover,
+      #zzzothelp #zzzot:focus {
+         margin: 0;
+         display: inline-block;
+         font-size: 500%;
+         -moz-user-select: none;
+         -webkit-user-select: none;
+         user-select: none;
+      }
+
+      hr.heading {
+         margin: -10px 0 15px;
+         height: 1px;
+         color: transparent;
+         border: none;
+         background: linear-gradient(to right, #999, #777 20%, rgba(0, 0, 0, 0));
+      }
+
+      #v {
+         margin-left: -10px;
+      }
+
+      h2,
+      h3 {
+         color: #ccc;
+         text-shadow: 0 0 2px #181818, 0 3px 1px #000;
+      }
+
+      h2 {
+         margin-top: 10px;
+      }
+
+      h3 {
+         padding: 5px 0 0;
+      }
+
+      h2::first-letter,
+      h3::first-letter {
+         font-size: 114%;
+      }
+
+      code,
+      #b64 {
+         white-space: nowrap;
+         font-weight: bold;
+         font-family: "Droid Sans Mono", "Noto Mono", "DejaVu Sans Mono", "Lucida Console", monospace;
+         font-size: 90%;
+         color: #070;
+         -moz-user-select: all;
+         -webkit-user-select: all;
+         user-select: all;
+      }
+
+      a:link,
+      .urls li {
+         font-weight: bold;
+         text-decoration: none;
+         color: #c4ad9d !important;
+         outline: none;
+      }
+
+      #local {
+         font-weight: normal;
+         color: #bbb !important;
+      }
+
+      a:visited {
+         color: #a98770 !important;
+      }
+
+      a:hover,
+      a:focus {
+         color: #e88b44 !important;
+      }
+
+      .warn {
+         margin-top: 18px;
+         padding: 15px 18px 15px 54px;
+         line-height: 1.2;
+         border: 1px solid #900;
+         border-radius: 4px;
+         box-shadow: inset 0 0 0 1px #000, inset 0 0 2px 1px #900, 0 0 2px 1px rgba(0, 0, 0, .2);
+         background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACcAAAAhCAMAAAEaI3KMAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACbVBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQECAgIDAAADAgIEBAQGBAQGBQUGBgYHAQAHBwcICAgJCQkKAQAKCgoLAQALCwsMCwsODg4PDw8QAQAQAgASAAASAwAVCwsaGhobDw8bExMbGxskHx8mJiYpAwAqKiotKysuAQAwLi4yMjI8HR08JiY9CAA/CAA/Pz9BQUFDQ0NKBwBLPDxLS0tTAwBhBABmZmZpAABpPT1tEABvEAB4RUV4WFh4a2uCBwCECACGhoaHeHiUAQCWFgCaFgCclZWkDgClVFSlb2+0lZW0tLS2FQC4BQC9vb3GGQDGxsbIVlbKWFjMFwDOCgDPfn7RFADUrKnV1dXWCgDWEgDWLR7YBATYEADYg4PZ2dnaAwPakozbEADbp6fbysrb29vezc3e1NTe3t7hDQDhIxjk5OTlb2nlcWvmCwDqwL7qysnq6urrCQDrDAPrDgbtAADtgIDv7+/wQkLwS0bxBgDxPTjzBADzhITzq6vz8/P1oJ/1qKf19fX2BAD209P51tb7AgD7HBv77+/7+/v8/Pz/AAD/DAz/amr/bm7/cnL/enr/goL/ior/k5P/lJT/mJj/m5v/o6P/q6v/s7P/t7f/uLj/u7v/vr7/w8P/xcX/yMj/y8v/09P/2Nj/29v/4+P/5OT/6en/6ur/6+v/8fH/8vL/9PT//Pz//f3////ZtbwoAAAAJXRSTlMAAwYMEhUYGyEkMDxCS1ppeISHkJacpairtMPP2Nvk5+3w8/n8UHR7egAAAp9JREFUGBmFwYlDi2EcB/BvB6lRjoxOS/1ykzPkFrmv3GdCyZEzLMRcrZdhjjG3MV4du/S2aU1puXn+Js87G/WWfD4I8W4FkMpaARgEwYAexAHQgFM1gbOPtAPThPUCQNxQyOb5w/Db2aYsKR4y62txgWglILosaDVkQxAS5p+HoK1NXhUC4qVxjccRYG/NYvZUcGQVF4uvreAMgrBeEAyTgNVlQb2QRkE9EaK+fFENhbQWToMOyO3++dPtJrQz2+lkmdnM6ZyJkJgN9+oYmzuZsbp7G2IQ0P+A+b7JZCooMJlMD8wH+oNLOaM7X8GtWlXBndedSQGSSztJRoiKekNpypcxUEh66X+RhA6i1rS0tKzpgfbI6/3q9RLaidvrbmTv3Hvj8NcoSbpEJyVpBP5IfORsfkIHm513ExEUucRuZ4xuMrt9SQR+yzhd+5kxYuxz7bkMBMQWWl+JokiiKL6yFsZCRmaziSMTZzYTuIRThmsCRwJ31XAsAQjP1ekqZFQh0+lyw5FeppSO5aVKy6AmpUFQitIs2rMwLQr/oaKdbW1t20iFbsVRyQdZCcWhG+rRF3w+33ufz3dhtBr/EpY057HH4/Ezv8fjeTwnKQxditQsbeA+5VP+xwZuqSYSXYjJ2OJyueq/HxpP2fu+1btcro0ZMegkloodDsfbH4wNo4kn2Y+3DoejmGKhED/8iM1mkxg3legNY0yy2WyHhw9AB4k5d6qrayQmm0+zmEyqqa6+k5OIvyJS8x5aLJZnzwNW0ornAU8tFsvDvNQIBEWnrzMajbdv3FS6fstoNK5Nj0ZAH9qh1+urrlQGZVJmZdCVKr1ev536gOtHRVqttvxE18q1Wm0R9QUGTth/9H/2j43HoBmbd+3u3q5N0wf/ApzdYLKMtOjLAAAAAElFTkSuQmCC) 12px center no-repeat, repeating-linear-gradient(to bottom, rgba(0, 0, 0, .5), rgba(64, 0, 0, .2) 2px), linear-gradient(to bottom, #222, #111);
+         background-size: 32px auto, 100% 100%, 100% 100%;
+         will-change: transform;
+      }
+
+      .emphasis {
+         margin-top: 4px;
+         display: inline-block;
+         line-height: 110%;
+         color: #900;
+         font-weight: bold;
+      }
+
+      ul {
+         margin-top: -10px;
+      }
+
+      ul#config {
+         list-style-type: square;
+      }
+
+      #config li {
+         padding-top: 10px;
+      }
+
+      .urls li {
+         list-style-type: none;
+      }
+
+      .urls li::before {
+         margin: 2px 0 -3px;
+         width: 22px;
+         height: 20px;
+         display: inline-block;
+         content: "";
+         background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABEVBMVEUAAAAAAAAAAAAAAAAAAABDREYAAAAAAAAAAACDhYgAAABmaGuPkZRZWlyFh4oAAABkZWcAAAAAAABRUlRiY2ZPUVN4eXtydHdcXV9YWVtCQ0QxMjM2Nzh6fH6DhIcAAAAAAAB3eXt3enxoaWtlZ2p2d3pwcnWCg4Z7fH5OTlBnaWtdXmAxMTJXWFoyMjRAQEIAAABeYGJmZ2qIio2jpKfx8vOKjZDLzM7v7+6wsrWdnqCAgYSbnJ6Nj5KMjY58foFxcnXp6urh4uTOz9KztreYmp2QkJOFh4uSlJaPkJF/f4NVVljR0tS/vsC8vsCsrrKgoqSXl5uQkpN6e31ub3JsbXBdYGJaW12/v8G+vb+SlJjRk2qVAAAAMnRSTlMABAwWJ4UHQiBhEWDohWEw7ToU8e3r5dKRg3tpXz05Nw/v7ejEvrGtfHRtaGZXV0w5MLROkgwAAAE3SURBVDjLndHXcoJAFIBhlyWEGA2WJJY003tjAQ2hKQIGe4tJ3v9BsjDOeLEcLzy335nZPfOnNpzTjEnILYIY7SnNVm/g2QLgO4ra/jPHw8kNgvyDlJ9KvuJwoGcl/sUezQtJ78fO17i7X0/G7MJJ5BWeQ7thPcixC0Km2Sb3kX/WNfk4zSykzVZn6lwKsW+J7J1Yc21dXTzHziccgYlvNKzu0lHCwnnkPy7k6FBvWN+6Eazxr6Izk/ePqDP9NHJB/WCbzplInenn+gb1vIgxTgsJ/To2/V8xjxHUZxr9zxFBrzqq1dVnGOpXecst5L4B9svyolQNXagfdU54XNOvHPUF+5Ge+VqjDvcbjEvvDyHYr3DtDX27D3qKk+yJMvICyFMI56+c+aofOwKWVv0SB3GFuN9m8w950jtLubKVyAAAAABJRU5ErkJggg==') left center no-repeat;
+         background-size: 16px 16px;
+         filter: sepia(1) saturate(.4) drop-shadow(0 1px 1px #000);
+      }
+
+      #b64 {
+         width: calc(100% - 40px);
+         max-width: 600px;
+         display: inline-block;
+         white-space: nowrap;
+         overflow: hidden;
+         word-break: break-all;
+         text-overflow: ellipsis;
+      }
+
+      @supports (-webkit-text-stroke-width: 1px) {
+
+         #zzzot,
+         #zzzot:hover,
+         #zzzot:focus {
+            background: #731;
+            background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, .2), rgba(0, 0, 0, .5) 2px),
+                        linear-gradient(to bottom, rgba(255, 96, 0, .2), rgba(0, 0, 0, .9) 100%),
+                        linear-gradient(to bottom, #210, #310 15%, #fff 50%, #310 80%);
+            -moz-background-clip: text !important;
+            -webkit-background-clip: text !important;
+            background-clip: text !important;
+            -moz-text-fill-color: transparent !important;
+            -webkit-text-fill-color: transparent !important;
+            text-fill-color: transparent !important;
+            filter: drop-shadow(0 0 2px #000);
+            -webkit-text-stroke-color: #999;
+            -webkit-text-stroke-width: 0.02em;
+         }
+
+         #zzzot:hover,
+         #zzzot:focus {
+            background: #951;
+            background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, .2), rgba(0, 0, 0, .3) 2px),
+                        linear-gradient(to bottom, rgba(255, 255, 255, .2), rgba(0, 0, 0, .7) 100%),
+                        linear-gradient(to bottom, #930, #d50 15%, #fff 50%, #930 80%, #000 100%, #ff0 150%);
+            filter: drop-shadow(0 0 2px #b00);
+            -webkit-text-stroke-color: #bbb;
+         }
+      }
+
+      @media screen and (max-width: 1200px) {
+         #zzzothelp {
+            margin: 0 3%;
+            font-size: 90%;
+         }
+      }
+
+      @media screen and (max-width: 1400px) {
+         #zzzothelp #container {
+            padding: 4% 5% !important;
+         }
+
+         #zzzothelp #panel {
+            padding: 20px 30px 10px;
+         }
+
+         code, #b64 {
+            display: inline-block;
+            white-space: normal;
+            text-align: left;
+         }
+      }
+   </style>
+   <link href="/zzzot.css" rel="stylesheet" type="text/css">
+</head>
+
+<body id="zzzothelp">
+   <div id="container">
+      <div id="panel">
+         <a href="http://127.0.0.1:7662/" title="OpenTracker homepage" alt="OpenTracker homepage"><span id="zzzot">ZZZOT</span></a>
+         <span id="v">$VERSION</span>
+         <h2>Welcome to the ZzzOT I2P Plugin!</h2>
+         <hr class="heading">
+         <p>A new eepsite tunnel and Jetty server have been started for your open tracker. You can view the live stats on the <a href="http://127.0.0.1:7662/tracker/index.jsp">Stats page</a> (this link is also on your router console sidebar when ZzzOT is running). Please report bugs or add comments and feature requests on <a href="http://zzz.i2p//forums/16">the plugin forum</a> on zzz.i2p.</p>
+         <p class="warn" id="docroot">This help file is located at: <code>$PLUGIN/eepsite/docroot/help.html</code><br><span class="emphasis"><b>You should probably move it outside of the document root before you announce your eepsite as it may contain your username.</b></span></p>
+         <h3>Eepsite Key &amp; Hostname Registration</h3>
+         <hr class="heading">
+         <p>Your Base 32 address is: <a href="http://$B32/">$B32</a>. Others may access your eepsite using this address, even if you do not publish a hostname. Once you decide on a hostname, you may <a href="http://127.0.0.1:7657/susidns/addressbook.jsp?book=private&destination=$B64">add the key</a> to your local addressbook.</p>
+         <p>Your Base 64 key is:<br><code id="b64">$B64</code></p>
+         <p>To generate a registration authentication string for your hostname (required for <a href="http://stats.i2p/i2p/addkey.html">hostname registration</a> at stats.i2p), run the following from the command line:<br><code>java -jar $I2P/lib/i2p.jar privatekeyfile -a your-hostname.i2p $PLUGIN/eepPriv.dat</code></p>
+         <p class="warn">Your private key file is located at: <code>$PLUGIN/eepPriv.dat</code><br><span class="emphasis">Make sure you backup this file and move the copy outside of <code>$PLUGIN/</code> as it controls ownership of your B64/B32 address.</span></p>
+         <h3>Configuration &amp; Customization</h3>
+         <hr class="heading">
+         <ul id="config">
+            <li>Your eepsite tunnel is configured for 2 inbound and 2 outbound tunnels, 3 hops each. To change the tunnel settings, edit <code>$PLUGIN/i2ptunnel.config</code> and then restart the plugin from the <a href="http://127.0.0.1:7657/configplugins">Plugin Manager</a> (the tunnel will not appear in the <a href="http://127.0.0.1:7657/i2ptunnelmgr">Tunnel Manager</a>). If your tracker gets over 1000 peers, you will probably want to increase the number of tunnels.</li>
+            <li>The only configuration for ZzzOT itself is the <i>interval</i>, which tells the clients how long to wait between announces. The default is 1620 seconds (27 minutes). Note: The easiest way to reduce the load on your tracker is to increase the interval. To do so, edit the file <code>$PLUGIN/zzzot.config</code>, then stop and restart the plugin.</li>
+            <li>The Jetty webserver port is <code>7662</code>. If you must change it, edit <code>jetty.xml</code>, <code>i2ptunnel.config</code>, and <code>plugins.config</code> in the directory <code>$PLUGIN</code>, then stop and restart the plugin.</li>
+            <li>Your eepsite home page is located at: <code>$PLUGIN/eepsite/docroot/index.html</code>, you may edit it to add information about your tracker or links to additional content.</li>
+            <li>Your eepsite document root is: <code>$PLUGIN/eepsite/docroot/</code>. You may put other files there if you wish to host additional content on your eepsite.</li>
+            <li>To change the display name for the site (for the logo and page titles), add the line: <code>sitename=mytracker</code> to <code>$PLUGIN/zzzot.config</code> (substituting <i>mytracker</i> with your desired name) and then restart the plugin.</li>
+            <li>If you wish to change the appearance of the site, edit the css file located at: <code>$PLUGIN/eepsite/docroot/zzzot.css</code>.</li>
+         </ul>
+         <p>As you probably know, an open tracker does not require torrents to be registered, and it does not host torrent files. However, you can host torrent files elsewhere on the eepsite, for example at <a href="/torrents/">/torrents</a>.</p>
+         <p>Note: Directory listings are enabled on the server, so you don't need create a web page to serve files; content in any folders you create in <code>$PLUGIN/eepsite/docroot/</code> will be immediately available to your users.</p>
+         <h3>Tracker URLs</h3>
+         <hr class="heading">
+         <p>The tracker statistics:</p>
+         <ul class="urls">
+            <li><a href="http://127.0.0.1:7662/tracker/index.jsp">http://127.0.0.1:7662/tracker/index.jsp</a> <span id="local">(local access)</span></li>
+            <li><a href="http://$B32/tracker/index.jsp">http://$B32/tracker/index.jsp</a></li>
+         </ul>
+         <p>The supported announce URLs:</p>
+         <ul class="urls">
+            <li><a href="http://$B32/a">http://$B32/a</a></li>
+            <li><a href="http://$B32/announce">http://$B32/announce</a></li>
+            <li><a href="http://$B32/announce.jsp">http://$B32/announce.jsp</a></li>
+            <li><a href="http://$B32/announce.php">http://$B32/announce.php</a></li>
+            <li><a href="http://$B32/tracker/a">http://$B32/tracker/a</a></li>
+            <li><a href="http://$B32/tracker/announce">http://$B32/tracker/announce</a></li>
+            <li><a href="http://$B32/tracker/announce.jsp">http://$B32/tracker/announce.jsp</a></li>
+            <li><a href="http://$B32/tracker/announce.php">http://$B32/tracker/announce.php</a></li>
+         </ul>
+         <p>The supported scrape URLs:</p>
+         <ul class="urls">
+            <li><a href="http://$B32/scrape">http://$B32/scrape</a></li>
+            <li><a href="http://$B32/scrape.jsp">http://$B32/scrape.jsp</a></li>
+            <li><a href="http://$B32/scrape.php">http://$B32/scrape.php</a></li>
+            <li><a href="http://$B32/tracker/scrape">http://$B32/tracker/scrape</a></li>
+            <li><a href="http://$B32/tracker/scrape.jsp">http://$B32/tracker/scrape.jsp</a></li>
+            <li><a href="http://$B32/tracker/scrape.php">http://$B32/tracker/scrape.php</a></li>
+         </ul>
+      </div>
+   </div>
+</body>
+
+</html>

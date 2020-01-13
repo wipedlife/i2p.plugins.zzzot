@@ -4,20 +4,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<noscript><meta http-equiv="refresh" content="300;url=."></noscript>
+<noscript><meta http-equiv="refresh" content="60;url=."></noscript>
 <title><%=ZzzOTController.getSiteName()%> OPENTRACKER | STATS</title>
-<link href="/tracker.css" rel="stylesheet" type="text/css">
-<link rel="icon" type="image/png" href="/favicon.png">
+<link href="/zzzot.css" rel="stylesheet" type="text/css">
 </head>
 <body id="stats">
 <div id="container">
 <div id="panel">
-<a href="/" title="Return to home page" alt="Return to home page"><span id="sitename"><%=ZzzOTController.getSiteName()%></span></a><hr>
+<a href="/" title="Return to homepage" alt="Return to homepage"><span id="zzzot"><%=ZzzOTController.getSiteName()%></span></a><hr>
 <%
     Torrents torrents = ZzzOTController.getTorrents();
     if (torrents != null) {
 %>
-<p id="totals">
+<p>
 <b>Torrents:</b> <%=torrents.size()%><br>
 <b>Peers:</b> <%=torrents.countPeers()%><br>
 </p>
@@ -28,20 +27,13 @@
 <%
     }
 %>
-<%
-    String showfooter = ZzzOTController.shouldShowFooter();
-    if (showfooter == "true") {
-%>
-<span id="footer" class="version"><%=ZzzOTController.footerText()%></span>
-<%
-    }
-%>
+<span id="version">Running ZZZOT <%=ZzzOTController.getVersion()%></span>
 </div>
 </div>
 <script type="text/javascript">
   setInterval(function() {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/tracker/?' + new Date().getTime(), true);
+    xhr.open('GET', '/tracker/index.jsp?' + new Date().getTime(), true);
     xhr.responseType = "text";
     xhr.onreadystatechange = function () {
       if (xhr.readyState==4 && xhr.status==200) {

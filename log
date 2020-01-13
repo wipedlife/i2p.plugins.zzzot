@@ -1,0 +1,12 @@
+<dr|z3d> <livingstone> about zzzot we need some classes: FileDownloader -> ScrapeDownloader, WhiteLister; BossServerEventer; ...(maybe another in future)
+<dr|z3d> <livingstone> aa and -> TorrentFilesCollector ->(? bad style) TorrentSearcher; 
+<livingstone> thx
+<dr|z3d> <livingstone> So in HTTP need POST/GET page which will get request from another zzzot servers; SERVER IN WHITELIST ? (Warning+CloseConnect+WriteMessage to server with some byte) : GetCommand
+<dr|z3d> <livingstone> So, need some stuff like Diffi-Holfman protocol
+<dr|z3d> <livingstone> for n-users
+<dr|z3d> <livingstone> ~4
+<dr|z3d> <livingstone> Another idea by uptime, which server is more uptimes then bossserver
+<dr|z3d> <dr|z3d> post/get page, or maybe just an entry in the config file.
+<dr|z3d> <livingstone> BossServer get all screape files and do 'math', give to all; all servers will have sync timers about some Events
+<dr|z3d> that's it?
+<livingstone> thx

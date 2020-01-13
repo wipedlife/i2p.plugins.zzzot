@@ -27,17 +27,17 @@
  */
 	// so the chars will turn into bytes correctly
 	request.setCharacterEncoding("ISO-8859-1");
-        // above doesn't work for the query string
-        // https://wiki.eclipse.org/Jetty/Howto/International_Characters
-        // we could also do ((org.eclipse.jetty.server.Request) request).setQueryEncoding("ISO-8859-1")
-        request.setAttribute("org.eclipse.jetty.server.Request.queryEncoding", "ISO-8859-1");
+	// above doesn't work for the query string
+	// https://wiki.eclipse.org/Jetty/Howto/International_Characters
+	// we could also do ((org.eclipse.jetty.server.Request) request).setQueryEncoding("ISO-8859-1")
+	request.setAttribute("org.eclipse.jetty.server.Request.queryEncoding", "ISO-8859-1");
 	java.io.OutputStream cout = response.getOutputStream();
 	response.setCharacterEncoding("ISO-8859-1");
 	response.setContentType("text/plain");
-        response.setHeader("Pragma", "no-cache");
+	response.setHeader("Pragma", "no-cache");
 	String info_hash = request.getParameter("info_hash");
-        String xff = request.getHeader("X-Forwarded-For");
-        String xfs = request.getHeader("X-Forwarded-Server");
+	String xff = request.getHeader("X-Forwarded-For");
+	String xfs = request.getHeader("X-Forwarded-Server");
 
 	boolean fail = false;
 	String msg = "bad";
@@ -45,16 +45,16 @@
 	if (xff != null || xfs != null) {
 		fail = true;
 		msg = "Non-I2P access denied";
-	        //response.setStatus(403, msg);
-	        response.setStatus(403);
+		//response.setStatus(403, msg);
+		response.setStatus(403);
 	}
 
 	boolean all = info_hash == null;
 
-        Torrents torrents = ZzzOTController.getTorrents();
+	Torrents torrents = ZzzOTController.getTorrents();
 	if (torrents == null && !fail) {
 		fail = true;
-		msg = "tracker is down";
+		msg = "Tracker is down";
 	}
 
 	InfoHash ih = null;
@@ -63,14 +63,14 @@
 			ih = torrents.createInfoHash(info_hash);
 		} catch (Exception e) {
 			fail = true;
-			msg = "bad infohash " + e;
+			msg = "Bad infohash " + e;
 		}
 	}
 
 	// build 3-level dictionary
 	Map<String, Object> m = new HashMap<String, Object>(4);
 	if (fail) {
-		m.put("failure reason", msg);		
+		m.put("failure reason", msg);
 	} else {
 		List<InfoHash> ihList = new ArrayList<InfoHash>();
 		if (all)

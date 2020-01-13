@@ -1,0 +1,3 @@
+database "/home/chris/i2p.mtn/i2p.mtn"
+  branch "i2p.plugins.zzzot"
+  keydir "/home/chris/.monotone/keys"
